@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using apiTest.Interface;
+using apiTest.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -15,6 +17,10 @@ namespace apiTest.Classes
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors();
+            builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+            builder.Services.AddScoped<ITableRepository, TableRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 
             var app = builder.Build();
 

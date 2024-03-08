@@ -1,4 +1,4 @@
-﻿namespace apiTest.Classes
+﻿namespace apiTest.Model
 {
     public class Table
     {

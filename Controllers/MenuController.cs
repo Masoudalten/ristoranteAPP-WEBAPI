@@ -1,9 +1,5 @@
-﻿using apiTest.Classes;
-using Microsoft.AspNetCore.Http;
+﻿using apiTest.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using Newtonsoft.Json;
-using System.Data;
 
 namespace apiTest.Controllers
 {
@@ -11,38 +7,25 @@ namespace apiTest.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
-        public readonly IConfiguration _configuration;
-        public MenuController(IConfiguration configuration)
+        private readonly IMenuRepository _menuRepository;
+
+        public MenuController(IMenuRepository menuRepository)
         {
-            _configuration = configuration;
+            _menuRepository = menuRepository ?? throw new ArgumentNullException(nameof(menuRepository));
         }
+
         [HttpGet]
-        public string GetMenuItems()
+        public IActionResult GetMenuItems()
         {
-            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("DBCon").ToString());
-            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM MenuItems", con);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            List<Piatto> menuItems = new List<Piatto>();
-
-            if (dt.Rows.Count > 0)
+            try
             {
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    Piatto piatto = new Piatto();
-                    piatto.nome = Convert.ToString(dt.Rows[i]["Nome"]);
-                    piatto.ricetta = Convert.ToString(dt.Rows[i]["Ricetta"]);
-                    piatto.prezzo = Convert.ToInt32(dt.Rows[i]["Prezzo"]);
-                    menuItems.Add(piatto);
-                }
-                return JsonConvert.SerializeObject(menuItems);
+                var menuItems = _menuRepository.GetMenuItems();
+                return Ok(menuItems);
             }
-            else
+            catch (Exception ex)
             {
-                return "No value";
+                return StatusCode(500, ex.Message);
             }
-
         }
     }
 }

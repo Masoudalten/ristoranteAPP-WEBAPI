@@ -1,4 +1,6 @@
-﻿namespace apiTest.Classes
+﻿using apiTest.Model;
+
+namespace apiTest.Classes
 {
     class PiattoOrdine
     {

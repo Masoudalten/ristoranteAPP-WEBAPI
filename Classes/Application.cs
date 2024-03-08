@@ -1,5 +1,5 @@
 ﻿using System;
-using apiTest.Classes;
+using apiTest.Model;
 
 namespace apiTest.Classes
 {
@@ -31,7 +31,7 @@ namespace apiTest.Classes
             {
                 for (int i = 0; i < piatto.Length; i++)
                 {
-                    Console.WriteLine($"{i + 1} - {piatto[i].nome} - {piatto[i].DisplayPrezzo()}");
+                    //Console.WriteLine($"{i + 1} - {piatto[i].nome} - {piatto[i].DisplayPrezzo()}");
                 }
             }
             catch (Exception ex)

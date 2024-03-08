@@ -1,4 +1,5 @@
 ﻿using System;
+using apiTest.Model;
 
 namespace apiTest.Classes
 {
