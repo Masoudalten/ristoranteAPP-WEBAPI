@@ -18,7 +18,7 @@ namespace apiTest.Classes
             builder.Services.AddSwaggerGen();
             builder.Services.AddCors();
             builder.Services.AddScoped<IMenuRepository, MenuRepository>();
-            builder.Services.AddScoped<ITableRepository, TableRepository>();
+            builder.Services.AddSingleton<ITableRepository, TableRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
@@ -45,6 +45,7 @@ namespace apiTest.Classes
 
             //Application application = new Application();
             //application.Run();
+
         }
     }
 }

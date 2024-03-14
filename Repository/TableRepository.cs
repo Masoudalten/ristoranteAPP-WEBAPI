@@ -2,15 +2,35 @@
 using apiTest.Model;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Microsoft.Extensions.Configuration;
+
 
 namespace apiTest.Repository
 {
     public class TableRepository : ITableRepository
     {
-        public readonly IConfiguration _configuration;
+        private static TableRepository _instance = null;
+        private static readonly object _locker = new object();
+
+        private readonly IConfiguration _configuration;
         public TableRepository(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        }
+
+        public static TableRepository GetInstance(IConfiguration configuration)
+        {
+            if (_instance == null)
+            {
+                lock (_locker)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new TableRepository(configuration);
+                    }
+                }
+            }
+            return _instance;
         }
         public IEnumerable<Table> GetTables()
         {
